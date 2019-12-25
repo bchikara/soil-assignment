@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { NavigusService } from './../Service/navigus.service';
+import { NavigusService } from '../Service/navigus.service';
+import { ServiceService } from '../Service/service.service';
 
 
 @Component({
@@ -11,62 +12,58 @@ import { NavigusService } from './../Service/navigus.service';
 })
 export class HomeComponent implements OnInit {
   keySubscription: Subscription
-  selected = false
-  stateCtrl = new FormControl();
   filteredStates;
- 
-  startAt = new Subject()
-  endAt = new Subject()
- 
-  beers: any;
-  keys: string[];
+
+  tasks;
+  keys = [];
   keysCopy;
-  keys1: any;
-  constructor(public navigusService: NavigusService) {
+  keys1;
+
+  constructor(public service: ServiceService) {
   }
 
- filter(query){
-  let q = query.toLowerCase();
-    this.keys = this.keysCopy;
-    console.log(q)
-    this.keys = (query) ?
-      this.keys.filter(p =>  this.beers[p].title.toLowerCase().includes(q)) : this.keysCopy;
-  
- }
-
- search(query){
-  let q = query.toLowerCase();
-  this.keys1 = this.keysCopy;
-  console.log(q)
-  this.keys1 = (query) ?
-    this.keys1.filter(p =>  this.beers[p].title.toLowerCase().includes(q)) : this.keysCopy;
- 
- }
-
   ngOnInit() {
-    this.navigusService.getBeers().subscribe(res => {
-      console.log(res.payload.val());
-      this.keys = this.keysCopy= Object.keys(res.payload.val())
-      this.beers = res.payload.val();
+    this.service.getTasks().subscribe(res => {
+      this.keys1 = this.keys = [...Object.keys(res.payload.val())]
+      console.log(res.payload.val())
+      this.tasks = res.payload.val()
     })
   }
 
-  addFavourite(key, beer) {
-    console.log('add')
-    this.navigusService.addFavourite(key, beer);
-    this.navigusService.updateBeer(key, beer);
+  sortByImportant() {
+    this.keys.sort((a, b) => {
+      if (this.tasks[a].important===false) { return 1; }
+      if (this.tasks[a].important===true) { return -1; }
+      return 0;
+    })
   }
 
-  removeFavourite(key, beer) {
-    console.log('remove')
-    if (beer.selected) {
-      this.keySubscription = this.navigusService.getFavouriteKey(key).subscribe(res => {
-        console.log(res[0].payload.key)
-        this.navigusService.removeFavourite2(res[0].payload.key, beer);
-      })
-    }
-    this.navigusService.updateBeer(key, beer);
+  sortByName() {
+    this.keys.sort((a, b) => {
+      if (this.tasks[a].name < this.tasks[b].name) { return -1; }
+      if (this.tasks[a].name > this.tasks[b].name) { return 1; }
+      return 0;
+    })
   }
+
+  sortByCompleted() {
+    this.keys.sort((a, b) => {
+      if (this.tasks[a].completed===false) { return 1; }
+      if (this.tasks[a].completed===true) { return -1; }
+      return 0;
+    })
+  }
+
+  sortByDate() {
+    this.keys.sort((a, b) => {
+      if (this.tasks[a].date < this.tasks[b].date) { return -1; }
+      if (this.tasks[a].date > this.tasks[b].date) { return 1; }
+      return 0;
+    })
+  }
+
+
+
 
 
 

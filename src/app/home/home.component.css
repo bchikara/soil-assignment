@@ -28,6 +28,9 @@
       width: 80px;
       margin-right: 20px;
   }
+  .cursor{
+    cursor: default
+  }
   .search {
     display: flex;
     justify-content: center;

@@ -35,6 +35,17 @@
     cursor: pointer;
     color: #00b694;
 }
+.imp{
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  color: #00b694;
+}
 .center{
     text-align: center !important;
+}
+.add{
+  text-align: center;
 }

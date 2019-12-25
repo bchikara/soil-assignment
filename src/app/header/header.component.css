@@ -15,5 +15,5 @@
       cursor: pointer;
   }
   .active-list-item {
-    color: #3F51B5; /* Note: You could also use a custom theme */
+    color: rgb(116, 117, 124); /* Note: You could also use a custom theme */
   }

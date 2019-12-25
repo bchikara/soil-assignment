@@ -15,18 +15,19 @@ export class NavigusService {
     let items = this.dB.object('/beers/' + key);
     items.update({ 'selected': !beer.selected })
   }
+
   updateBeer2(key,beer){
     let items = this.dB.object('/beers/' + key);
     items.update({ 'selected': false })
   }
+
   addFavourite(key, beer) {
-    
+
     let product = {
       key: key,
       beer: beer
     }
       return this.dB.list('/favourites').push(product)
-   
   }
   
   searchBeers(start, end){

@@ -1,25 +1,35 @@
 <app-header></app-header>
 <br>
 <div class="search">
-        <mat-form-field class="example-full-width">
-            <input matInput placeholder="Search" aria-label="State"  #query (keyup)="search(query.value)" (keyup.enter)="filter(query.value)" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let key of keys1" (click)="filter(beers[key].title)" [value]="beers[key].title">
-                    <img class="example-option-img" aria-hidden [src]="beers[key].image" height="25">
-                    <span>{{beers[key].title}}</span> <br> 
-                </mat-option> 
-            </mat-autocomplete>
-        </mat-form-field>
+    <mat-form-field>
+        <mat-label>Filter Task</mat-label>
+        <mat-select>
+            <mat-option (click)="sortByName()" [value]="'Name'">
+                Name
+            </mat-option>
+            <mat-option (click)="sortByDate()" [value]="'Date'">
+                Date
+            </mat-option>
+            <mat-option (click)="sortByCompleted()" [value]="'Completed'">
+                Completed
+            </mat-option>
+            <mat-option (click)="sortByImportant()" [value]="'Important'">
+                Important
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 </div>
 <div class="main-overview">
     <div *ngFor="let key of keys" class="overviewcard">
-        <div class="overviewcard__icon"><img src="{{beers[key].image}}" alt="Smiley face" width="42" height="42"></div>
+        <div class="overviewcard__icon"><img src="{{tasks[key].url}}" alt="Smiley face" width="42" height="42"></div>
         <div class="overviewcard__info">
-          <strong> {{beers[key].title}} </strong><br>
-           {{beers[key].desc}}        </div>
-        <div class="fav" >
-            <mat-icon (click)="addFavourite(key, beers[key])" *ngIf="!beers[key].selected">star_border</mat-icon>
-            <mat-icon  *ngIf="beers[key].selected">star</mat-icon>
+            <strong> {{tasks[key].name}} </strong><br>
+            {{tasks[key].date | date}} <br>
+            {{tasks[key].description}} </div>
+        <div class="fav">
+            <mat-icon class="cursor" *ngIf="tasks[key].completed">done</mat-icon>
+            &nbsp; <mat-icon class="cursor" *ngIf="!tasks[key].important">star_border</mat-icon>
+            <mat-icon class="cursor" *ngIf="tasks[key].important">star</mat-icon>
         </div>
 
     </div>

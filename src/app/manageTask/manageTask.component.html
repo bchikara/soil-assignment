@@ -1,0 +1,34 @@
+<app-header></app-header> <br>
+<div class="add" routerLink="/addTask">
+    <button mat-raised-button color="primary">Add Task +</button>
+</div> <br>
+<div *ngIf="keys && keys.length;else noItems" class="main-overview">
+
+    <div *ngFor="let key of keys" class="overviewcard">
+        <div class="overviewcard__icon" (click)="editTask(key)"><img src="{{tasks[key].url}}" alt="Smiley face" width="42"
+                height="42"></div>
+        <div class="overviewcard__info" (click)="editTask(key)">
+            <strong>
+                {{tasks[key].name}}
+            </strong> <br>
+            {{tasks[key].date | date}} <br>
+            {{tasks[key].description}} </div>
+        <div class="fav" (click)="removeTask(key)">
+            <mat-icon>delete</mat-icon>
+        </div>
+        <div class="imp">
+            <mat-icon (click)="completedTask(key,tasks[key].completed)" *ngIf="!tasks[key].completed">done_outline</mat-icon>
+           <strong> <mat-icon (click)="completedTask(key,tasks[key].completed)"  *ngIf="tasks[key].completed">done</mat-icon></strong>
+       &nbsp;     <mat-icon (click)="importantTask(key,tasks[key].important)" *ngIf="!tasks[key].important">star_border</mat-icon>
+            <mat-icon (click)="importantTask(key,tasks[key].important)" *ngIf="tasks[key].important">star</mat-icon>
+        </div>
+    </div>
+
+</div>
+
+<ng-template #noItems>
+    <div class="center">
+        <span style="color:grey;font-size: 20px;text-align:center">There is nothing here. To add some <a routerLink="/addTask">Click
+                Here</a></span>
+    </div>
+</ng-template>
